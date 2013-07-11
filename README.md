@@ -17,7 +17,7 @@ This project provides a single-page application intended to provide:
 
 ### Components
 
-Service layer:
+RESTful service layer:
 
 * Services supported by this project are written in Restify.js running on Node.js and hosted on DigitalOcean or any similar virtual private server.
 
@@ -43,25 +43,25 @@ Properties:
 
 JSON API:
 
-* /communities/
-	* GET: Return list of communities to which the authenticated user has access.
-	* POST: Create a new community with the authenticated user as owner. Returns the new community's URI.
+* /communities/?name={name}&owners[]={owners}&status[]={status}&deleted=true
+	* GET: Return list of communities to which the authenticated user has access. Optionally filter by name, owners, and/or status.
+	* POST: Create a new community with the authenticated user as owner.
 * /communities/{id}/
 	* GET: Return details about the specified community.
 	* PUT: Update details about the specified community.
 	* DELETE: Mark the specified community as deleted.
 * /communities/{id}/members/
 	* GET: Return a list of members of the specified community.
-	* POST: Add a member to the specified community, if the authenticated user is an owner of the community.
-* /communities/{id}/members/{id}?page={page}&qty={qty}
-	* GET: Return member activity within the specified community, either all activity or activity paged by page and quantity, in reverse chronological order.
+	* POST: Invite a member to the specified community.
+* /communities/{id}/members/{id}/
+	* GET: Returns details about the specified member only if the member exists and is a member of the given community.
+	* DELETE: Remove the member from the community (or rather, remove the community from the member's account.)
 * /communities/{id}/owners/
 	* GET: Return a list of community account owners.
 	* POST: Add a new owner to the list of community account owners.
 * /communities/{id}/owners/{id}/
-	* GET: Return details about a given community owner.
-	* DELETE: Remove an owner from the list of community owners.
-
+	* GET: Returns details about the specified owner only if the owner exists and is an owner of the given community.
+	* DELETE: Remove the member's owner status for the specified community.
 
 ### Member class
 
@@ -79,14 +79,13 @@ Properties:
 
 JSON API:
 
-* /members/
-	* GET: Return a list of members grouped by community with whom the authenticated user is connected.
+* /members/?community[]={community}&status[]={status}&deleted=true
+	* GET: Return a list of members grouped by community with whom the authenticated user is connected. Optionally filter by community and status.
 	* POST: Create a new member.
 * /members/{id}/
 	* GET: Return details about the requested user if the authenticated user is connected.
 	* PUT: Update the specified user.
 	* DELETE: Mark the specified user as deleted.
-
 
 ### Task class
 
@@ -111,7 +110,7 @@ Properties specific to a scheduled task:
 
 JSON API:
 
-* /tasks/?community[]={community}&status[]={status}&category[]={category}&owner[]={owner}&creator[]={creator}
+* /tasks/?community[]={community}&status[]={status}&category[]={category}&owner[]={owner}&creator[]={creator}&deleted=true
 	* GET: Returns a list of tasks grouped by community for the authenticated user. Optionally filter by community, status, category, owner, and/or creator.
 	* POST: Create a new task.
 * /tasks/{id}/
@@ -144,9 +143,18 @@ Properties specific to RecurringTask:
 
 API:
 
-* /recurring/?community[]={community}&owner[]={owner}&status[]={status}
+* /recurring/?community[]={community}&owner[]={owner}&status[]={status}&deleted=true
 	* GET: List all recurring tasks grouped by community to which the authenticated user has access. Optionally filter by community, owner, and/or status.
 	* POST: Create a new recurring task. Returns the link to the new recurring task.
-* /recuuring/{id}/
+* /recurring/{id}/
 	* GET: Return the details of a recurring task.
 	* PUT: Update the details of a recurring task.
+	* DELETE: Mark a recurring task as deleted.
+
+## Some notes on the interface
+
+1. Every interaction returns an HTTP status code and text that is descriptive of the result.
+2. Every successful POST returns a JSON document including the ID and URI of the record created.
+3. Every successful PUT returns the updated JSON document.
+4. Every successful DELETE returns a JSON document including the ID and URI of the record marked as deleted.
+
