@@ -159,5 +159,6 @@ API:
 1. Every interaction returns an HTTP status code and text that is descriptive of the result.
 2. Every successful POST returns a JSON document including the ID and URI of the record created.
 3. Every successful PUT returns the updated JSON document.
-4. DELETE should mark items for deletion by changing the item's status. Items that are DELETEd that already are marked for deletion should be removed from the database. Every successful DELETE returns a "202 Accepted" for a document that is not already marked for deletion, and a "204 No Content" for an item that is permanently deleted.
+4. DELETE should mark items for deletion by changing the item's status. DELETEd items with a status other than "deleted" should return a 202 Accepted status code with a JSON document showing the ID and status. DELETEd items with a status of "deleted" should be permanently removed from the database and return a 204 No Content status code without a response document.
+5. Any HTTP method not documented will return a 405 Method Not Allowed.
 
