@@ -15,7 +15,7 @@ This project provides a single-page application intended to provide:
 * A system for tracking contributions to the community through completion of tasks.
 * A means for reporting the human energy put into a community.
 
-### Components
+## Components
 
 RESTful service layer:
 
@@ -43,23 +43,23 @@ Properties:
 
 JSON API:
 
-* /communities/?name={name}&owners[]={owners}&status[]={status}&deleted=true
+* ```/communities/?name={name}&owners[]={owners}&status[]={status}&deleted=true```
 	* GET: Return list of communities to which the authenticated user has access. Optionally filter by name, owners, and/or status.
 	* POST: Create a new community with the authenticated user as owner.
-* /communities/{id}/
+* ```/communities/{id}/```
 	* GET: Return details about the specified community.
 	* PUT: Update details about the specified community.
 	* DELETE: Mark the specified community as deleted.
-* /communities/{id}/members/
+* ```/communities/{id}/members/```
 	* GET: Return a list of members of the specified community.
 	* POST: Invite a member to the specified community.
-* /communities/{id}/members/{id}/
+* ```/communities/{id}/members/{id}/```
 	* GET: Returns details about the specified member only if the member exists and is a member of the given community.
 	* DELETE: Remove the member from the community (or rather, remove the community from the member's account.)
-* /communities/{id}/owners/
+* ```/communities/{id}/owners/```
 	* GET: Return a list of community account owners.
 	* POST: Add a new owner to the list of community account owners.
-* /communities/{id}/owners/{id}/
+* ```/communities/{id}/owners/{id}/```
 	* GET: Returns details about the specified owner only if the owner exists and is an owner of the given community.
 	* DELETE: Remove the member's owner status for the specified community.
 
@@ -79,10 +79,10 @@ Properties:
 
 JSON API:
 
-* /members/?community[]={community}&status[]={status}&deleted=true
+* ```/members/?community[]={community}&status[]={status}&deleted=true```
 	* GET: Return a list of members grouped by community with whom the authenticated user is connected. Optionally filter by community and status.
 	* POST: Create a new member.
-* /members/{id}/
+* ```/members/{id}/```
 	* GET: Return details about the requested user if the authenticated user is connected.
 	* PUT: Update the specified user.
 	* DELETE: Mark the specified user as deleted.
@@ -110,10 +110,10 @@ Properties specific to a scheduled task:
 
 JSON API:
 
-* /tasks/?community[]={community}&status[]={status}&category[]={category}&owner[]={owner}&creator[]={creator}&deleted=true
+* ```/tasks/?community[]={community}&status[]={status}&category[]={category}&owner[]={owner}&creator[]={creator}&deleted=true```
 	* GET: Returns a list of tasks grouped by community for the authenticated user. Optionally filter by community, status, category, owner, and/or creator.
 	* POST: Create a new task.
-* /tasks/{id}/
+* ```/tasks/{id}/```
 	* GET: Returns the details of a particular task.
 	* PUT: Update the details of a particular task.
 	* DELETE: Mark the task as deleted.
@@ -143,10 +143,10 @@ Properties specific to RecurringTask:
 
 API:
 
-* /recurring/?community[]={community}&owner[]={owner}&status[]={status}&deleted=true
+* ```/recurring/?community[]={community}&owner[]={owner}&status[]={status}&deleted=true```
 	* GET: List all recurring tasks grouped by community to which the authenticated user has access. Optionally filter by community, owner, and/or status.
 	* POST: Create a new recurring task. Returns the link to the new recurring task.
-* /recurring/{id}/
+* ```/recurring/{id}/```
 	* GET: Return the details of a recurring task.
 	* PUT: Update the details of a recurring task.
 	* DELETE: Mark a recurring task as deleted.
