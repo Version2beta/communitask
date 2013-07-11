@@ -75,7 +75,7 @@ Properties:
 * phone number
 * communities
 * avatar
-* status: invited, accepted, confirmed, deleted, super
+* status: invited, confirmed, deleted, super
 
 JSON API:
 
