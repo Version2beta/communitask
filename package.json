@@ -1,0 +1,29 @@
+{
+  "name": "communitask",
+  "version": "0.0.1",
+  "description": "This is a simple to-do list / task manager for recurring tasks, designed to meet the needs of a family or collaborative group of people.",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Version2beta/communitask.git"
+  },
+  "keywords": [
+    "task",
+    "project",
+    "manager",
+    "family",
+    "community"
+  ],
+  "author": "M Robert Martin / Version2beta.com",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/Version2beta/communitask/issues"
+  },
+  "dependencies": {
+    "mocha": "~1.12.0",
+    "restify": "~2.6.0"
+  }
+}
