@@ -136,9 +136,10 @@ Properties specific to RecurringTask:
 
 * link: A link to more information about the task. For example, a link to a page that provides instruction on completing the task.
 * defaultValue: A value assigned to this task. For example, how many points or gold stars a member is awarded for completing a task.
+* defaultPriority: The priority this task will have when created.
 * fixed: Whether the value of this task is fixed (true, always worth the same amount) or adjustable (false, may be adjusted by the member).
 * owner: The member ID of the owner of the recurring task template.
-* status: held, active, deleted
+* status: inactive, active, deleted
 * assignees: To whom the task should be assigned, as a string or array. "*" indicates that each member of the community should be assigned to complete this task individually, and an empty set indicates that any member of the community may complete this task.
 * schedule: When this task should be inserted into the active to-do list.
 * window: How long this task should appear in a to-do list if it has not been marked as completed.
