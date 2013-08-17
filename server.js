@@ -1,6 +1,9 @@
-var config = require('./config');
 var restify = require('restify');
+
 var views = require('./views')
+var log = require('./lib/log');
+
+var config = require('./config');
 
 var server = restify.createServer();
 server
@@ -10,8 +13,8 @@ server
 // Routes
 server.get('/members', views.listMembers);
 server.get('/members/:id', views.showMember);
-server.post('/communities', views.communityCreate);
+server.post('/communities', views.createCommunity);
 
 server.listen(config.port, function() {
-	console.log('%s listening at %s', server.name, server.url);
+  log.info('%s listening at %s', server.name, server.url);
 });
