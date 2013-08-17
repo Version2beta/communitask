@@ -33,7 +33,7 @@ models.Member = Backbone.Model.extend({
 });
 
 models.Members = Backbone.Collection.extend({
-  model: models.Member;
+  model: models.Member
 });
 
 models.Task = Backbone.Model.extend({
@@ -56,7 +56,7 @@ models.Task = Backbone.Model.extend({
 });
 
 models.Tasks = Backbone.Collection.extend({
-  model: models.Task;
+  model: models.Task
 });
 
 models.RecurringTask = Backbone.Model.extend({
@@ -79,5 +79,5 @@ models.RecurringTask = Backbone.Model.extend({
 });
 
 models.RecurringTasks = Backbone.Collection.extend({
-  model: models.RecurringTask;
+  model: models.RecurringTask
 });
