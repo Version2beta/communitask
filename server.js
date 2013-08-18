@@ -10,6 +10,7 @@ var server = restify.createServer();
 server
   .use(restify.fullResponse())
   .use(restify.bodyParser());
+server.pre(restify.pre.userAgentConnection());
 
 /* Models */
 
@@ -25,10 +26,10 @@ server.get('/communities', views.listCommunities);
 server.post('/communities', views.createCommunity);
 server.get('/communities/:cid', views.showCommunity);
 server.put('/communities/:cid', views.updateCommunity);
-server.delete('/communities/:cid', views.deleteCommunity);
+server.del('/communities/:cid', views.deleteCommunity);
 server.get('/communities/:cid/members', views.showCommunityMembers);
 server.post('/communities/:cid/members', views.addCommunityMember);
-server.delete('/communities/:cid/members/:mid', views.deleteCommunityMember);
+server.del('/communities/:cid/members/:mid', views.deleteCommunityMember);
 server.get('/communities/:cid/owners', views.showCommunityOwners);
 server.post('/communities/:cid/owner', views.addCommunityOwner);
 server.get('/communities/:cid/owners/:mid', views.deleteCommunityOwner);
@@ -38,21 +39,21 @@ server.get('/members', views.listMembers);
 server.post('/members', views.createMember);
 server.get('/members/:mid', views.showMember);
 server.put('/members/:mid', views.updateMember);
-server.delete('/members/:mid', views.deleteMember);
+server.del('/members/:mid', views.deleteMember);
 
 // Tasks
 server.get('/tasks', views.listTasks);
 server.post('/tasks', views.createTask);
 server.get('/tasks/:tid', views.showTask);
 server.put('/tasks/:tid', views.updateTask);
-server.delete('/tasks/:tid', views.deleteTask);
+server.del('/tasks/:tid', views.deleteTask);
 
 // RecurringTasks
 server.get('/recurring', views.listRecurring);
 server.post('/recurring', views.createRecurring);
 server.get('/recurring/:rid', views.showRecurring);
 server.put('/recurring/:rid', views.updateRecurring);
-server.delete('/recurring/:rid', views.deleteRecurring);
+server.del('/recurring/:rid', views.deleteRecurring);
 
 // Static content
 server.get(/.*/, restify.serveStatic({
