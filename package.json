@@ -29,8 +29,7 @@
     "restify": "~2.6.0",
     "redcouch": "*",
     "underscore": "~1.5.1",
-    "backbone": "~1.0.0",
-    "backbone-couch": "~2.0.0"
+    "LazyBoy": "~0.1.14"
   },
   "devDependencies": {
     "chai": "~1.7.2",

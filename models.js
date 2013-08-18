@@ -1,7 +1,24 @@
-var Backbone = require('backbone');
 var _ = require('underscore')._;
+var config = require('./config');
+
+var LazyBoy = require('LazyBoy');
+LazyBoy.create_connection({
+  url: config.couch.host,
+  port: config.couch.port,
+  db: config.couch.name,
+  auth: config.couch.auth
+})
 
 var models = module.exports = {};
+
+models.Community = LazyBoy.define('Community', {
+    id: String,
+    name: String,
+    avatar: String,
+    link: String,
+    owners: String,
+    status: String
+});
 
 models.Community = Backbone.Model.extend({
   initialize: function (opts) {
