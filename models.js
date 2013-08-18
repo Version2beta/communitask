@@ -1,22 +1,7 @@
 var Backbone = require('backbone');
-var backboneCouch = require('backbone-couch');
 var _ = require('underscore')._;
 
 var models = module.exports = {};
-
-var couch = backboneCouch(require('./config').couch);
-
-Backbone.sync = couch.sync;
-
-//
-// Back the backbone models with couchdb
-//
-models.connect = function (config, cb) {
-  couch.install(function (err) {
-    if (err) return cb(err);
-    return cb(null);
-  });
-}
 
 models.Community = Backbone.Model.extend({
   initialize: function (opts) {

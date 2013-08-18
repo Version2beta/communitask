@@ -28,7 +28,7 @@ Data layer:
 Client layer:
 
 * The client users the Twitter Bootstrap framework.
-* The client is a single-page web application using Backbone.js. (Angular?)
+* The client is a single-page web application using Backbone.js.
 
 ### Community class
 

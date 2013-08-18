@@ -12,6 +12,12 @@ server
   .use(restify.fullResponse())
   .use(restify.bodyParser());
 
+// Models
+var communities = new models.Communities();
+var members = new models.Members();
+var tasks = new models.Tasks();
+var recurringTasks = new models.RecurringTasks();
+
 // Routes
 server.get('/members', views.listMembers);
 server.get('/members/:id', views.showMember);
@@ -21,19 +27,6 @@ server.get(/.*/, restify.serveStatic({
   default: 'index.html'
 }));
 
-models.connect(config, function (err) {
-  if (err) log.info(err);
-  server.listen(config.port, function() {
-    log.info('%s listening at %s', server.name, server.url);
-  });
-  //var community = new models.Community({id: 'duckduckduck'});
-  //community.save();
-  var communities = new models.Communities();
-  communities.fetch({
-    error: function () { 
-      log.info("The database seems to have been misplaced.");
-      process.exit(1);
-    }
-  });
+server.listen(config.port, function() {
+  log.info('%s listening at %s', server.name, server.url);
 });
-
