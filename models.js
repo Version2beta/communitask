@@ -1,8 +1,22 @@
-//var redcouch = require('redcouch');
-//var red = redcouch('http://localhost:5984');
 var Backbone = require('backbone');
+var backboneCouch = require('backbone-couch');
+var _ = require('underscore')._;
 
 var models = module.exports = {};
+
+var couch = backboneCouch(require('./config').couch);
+
+Backbone.sync = couch.sync;
+
+//
+// Back the backbone models with couchdb
+//
+models.connect = function (config, cb) {
+  couch.install(function (err) {
+    if (err) return cb(err);
+    return cb(null);
+  });
+}
 
 models.Community = Backbone.Model.extend({
   initialize: function (opts) {
@@ -12,11 +26,14 @@ models.Community = Backbone.Model.extend({
     this.link = opts.link;
     this.owners = opts.owners;
     this.status = opts.status || 'created';
-  }
+  },
+  url: function() { return '/communities/' + this.id; },
+  collection: models.Communities
 });
 
 models.Communities = Backbone.Collection.extend({
-  model: models.Community
+  model: models.Community,
+  url: '/communities'
 });
 
 models.Member = Backbone.Model.extend({
@@ -29,7 +46,9 @@ models.Member = Backbone.Model.extend({
     this.communities = opts.communities;
     this.avatar = opts.avatar;
     this.status = opts.status || 'invited';
-  }
+  },
+  url: function() { return '/members/' + this.id; },
+  collection: models.Members
 });
 
 models.Members = Backbone.Collection.extend({
@@ -52,7 +71,9 @@ models.Task = Backbone.Model.extend({
     this.done = null;
     this.doneBy = null;
     this.value = opts.value || 0;
-  }
+  },
+  url: function() { return '/tasks/' + this.id; },
+  collection: models.Tasks
 });
 
 models.Tasks = Backbone.Collection.extend({
@@ -75,7 +96,9 @@ models.RecurringTask = Backbone.Model.extend({
     this.schedule = opts.schedule;
     this.window = opts.window;
     this.defaultValue = opts.defaultValue;
-  }
+  },
+  url: function() { return '/recurringtasks/' + this.id; },
+  collection: models.RecurringTasks
 });
 
 models.RecurringTasks = Backbone.Collection.extend({

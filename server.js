@@ -1,4 +1,5 @@
 var restify = require('restify');
+var _ = require('underscore')._;
 
 var models = require('./models');
 var views = require('./views');
@@ -21,6 +22,19 @@ server.get(/.*/, restify.serveStatic({
   default: 'index.html'
 }));
 
-server.listen(config.port, function() {
-  log.info('%s listening at %s', server.name, server.url);
+models.connect(config, function (err) {
+  if (err) log.info(err);
+  server.listen(config.port, function() {
+    log.info('%s listening at %s', server.name, server.url);
+  });
+  //var community = new models.Community({id: 'duckduckduck'});
+  //community.save();
+  var communities = new models.Communities();
+  communities.fetch({
+    success: function () { 
+      communities.forEach(function(c) { console.log(c.id); });
+    }
+  });
+  //console.log(communities);
 });
+
