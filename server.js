@@ -7,26 +7,60 @@ var log = require('./lib/log');
 
 var config = require('./config');
 var server = restify.createServer();
-
 server
   .use(restify.fullResponse())
   .use(restify.bodyParser());
 
-// Models
+/* Models */
+
 var communities = new models.Communities();
 var members = new models.Members();
 var tasks = new models.Tasks();
 var recurringTasks = new models.RecurringTasks();
 
-// Routes
-server.get('/members', views.listMembers);
-server.get('/members/:id', views.showMember);
+/* Routes */
+
+// Communities
+server.get('/communities', views.listCommunities);
 server.post('/communities', views.createCommunity);
+server.get('/communities/:cid', views.showCommunity);
+server.put('/communities/:cid', views.updateCommunity);
+server.delete('/communities/:cid', views.deleteCommunity);
+server.get('/communities/:cid/members', views.showCommunityMembers);
+server.post('/communities/:cid/members', views.addCommunityMember);
+server.delete('/communities/:cid/members/:mid', views.deleteCommunityMember);
+server.get('/communities/:cid/owners', views.showCommunityOwners);
+server.post('/communities/:cid/owner', views.addCommunityOwner);
+server.get('/communities/:cid/owners/:mid', views.deleteCommunityOwner);
+
+// Members
+server.get('/members', views.listMembers);
+server.post('/members', views.createMember);
+server.get('/members/:mid', views.showMember);
+server.put('/members/:mid', views.updateMember);
+server.delete('/members/:mid', views.deleteMember);
+
+// Tasks
+server.get('/tasks', views.listTasks);
+server.post('/tasks', views.createTask);
+server.get('/tasks/:tid', views.showTask);
+server.put('/tasks/:tid', views.updateTask);
+server.delete('/tasks/:tid', views.deleteTask);
+
+// RecurringTasks
+server.get('/recurring', views.listRecurring);
+server.post('/recurring', views.createRecurring);
+server.get('/recurring/:rid', views.showRecurring);
+server.put('/recurring/:rid', views.updateRecurring);
+server.delete('/recurring/:rid', views.deleteRecurring);
+
+// Static content
 server.get(/.*/, restify.serveStatic({
   directory: './build',
   default: 'index.html'
 }));
 
+// Listen
 server.listen(config.port, function() {
   log.info('%s listening at %s', server.name, server.url);
 });

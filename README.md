@@ -56,13 +56,11 @@ JSON API:
 	* GET: Return a list of members of the specified community.
 	* POST: Invite a member to the specified community.
 * ```/communities/{id}/members/{id}/```
-	* GET: Returns details about the specified member only if the member exists and is a member of the given community.
 	* DELETE: Remove the member from the community (or rather, remove the community from the member's account.)
 * ```/communities/{id}/owners/```
 	* GET: Return a list of community account owners.
 	* POST: Add a new owner to the list of community account owners.
 * ```/communities/{id}/owners/{id}/```
-	* GET: Returns details about the specified owner only if the owner exists and is an owner of the given community.
 	* DELETE: Remove the member's owner status for the specified community.
 
 ### Member class
