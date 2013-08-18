@@ -6,7 +6,6 @@ var views = require('./views');
 var log = require('./lib/log');
 
 var config = require('./config');
-
 var server = restify.createServer();
 
 server
@@ -31,10 +30,10 @@ models.connect(config, function (err) {
   //community.save();
   var communities = new models.Communities();
   communities.fetch({
-    success: function () { 
-      communities.forEach(function(c) { console.log(c.id); });
+    error: function () { 
+      log.info("Could not connection to database");
+      process.exit(1);
     }
   });
-  //console.log(communities);
 });
 
