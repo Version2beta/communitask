@@ -31,7 +31,7 @@ models.connect(config, function (err) {
   var communities = new models.Communities();
   communities.fetch({
     error: function () { 
-      log.info("Could not connection to database");
+      log.info("The database seems to have been misplaced.");
       process.exit(1);
     }
   });
