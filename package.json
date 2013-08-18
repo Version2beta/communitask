@@ -30,7 +30,8 @@
     "redcouch": "*",
     "underscore": "~1.5.1",
     "backbone": "~1.0.0",
-    "backbone-couch": "~2.0.0"
+    "backbone-couch": "~2.0.0",
+    "cradle": "~0.6.6"
   },
   "devDependencies": {
     "chai": "~1.7.2",
