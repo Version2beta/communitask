@@ -3,12 +3,12 @@ var config = require('./config');
 
 var cradle = require('cradle');
 var con = new(cradle.Connection)(
-    'localhost',
-    5984,
+    config.couch.host,
+    config.couch.port,
     {
       auth: {
-        username: 'communitask',
-        password: 'drunken%20himself%20holland'
+        username: config.couch.auth.username,
+        password: config.couch.auth.password
       },
       retries: 3,
       retryTimeout: 30 * 1000
