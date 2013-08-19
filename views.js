@@ -34,12 +34,14 @@ var createIfNeeded = function (db, cb) {
   });
 }
 
+var dbCommunitask = con.database('communitask');
+
+
 /* Views */
 
 var views = module.exports = {
 
   connect: function(cb) {
-    dbCommunitask = con.database('communitask');
     createIfNeeded(dbCommunitask, function(err, created) {
       if (err) {
         log.info('Communitask database failed: ' + util.inspect(err));
@@ -59,16 +61,13 @@ var views = module.exports = {
   },
 
   listCommunities: function(req, res, next) {
-    res.send(
-      util.inspect(dbCommunitask.view('communities/listCommunities'),
-      function(err) {
-        if (err) {
-          util.inspect(err);
-        } else {
-          next();
-        }
-      })
-    );
+    dbCommunitask.view('communities/listCommunities', function(err, communities) {
+      if (err) {
+        util.inspect(err);
+      } else {
+        next(res.send(communities));
+      }
+    });
   }
 };
 
