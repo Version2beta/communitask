@@ -1,81 +1,74 @@
+var util = require('util');
+var log = require('./lib/log');
+var _ = require('underscore')._;
+var config = require('./config');
+
+var cradle = require('cradle');
+var con = new(cradle.Connection)(
+    config.couch.host,
+    config.couch.port,
+    {
+      auth: {
+        username: config.couch.auth.username,
+        password: config.couch.auth.password
+      },
+      retries: 3,
+      retryTimeout: 30 * 1000
+    });
+
+var createIfNeeded = function (db, cb) {
+  db.exists(function (err, exists) {
+    if (err) {
+      cb(err, false);
+    } else if (!exists) {
+      db.create(function (err) {
+        if (err) {
+          cb(err, false);
+        } else {
+          cb(null, true);
+        }
+      });
+    } else {
+      cb(null, false);
+    }
+  });
+}
+
+/* Views */
+
 var views = module.exports = {
-  listCommunities: function (req, res, next) {
-    next(new Error('Not implemented'));
+
+  connect: function(cb) {
+    dbCommunitask = con.database('communitask');
+    createIfNeeded(dbCommunitask, function(err, created) {
+      if (err) {
+        log.info('Communitask database failed: ' + util.inspect(err));
+        cb(err);
+      } else if (created) {
+        log.info('Communitask database created.');
+        dbCommunitask.save('_design/communities', {
+          listCommunities: {
+            map: function (doc) {
+              if (doc._id) emit(doc._id, doc);
+            }
+          }
+        });
+      }
+      cb(null);
+    });
   },
-  createCommunity: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  showCommunity: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  updateCommunity: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  deleteCommunity: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  showCommunityMembers: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  addCommunityMember: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  deleteCommunityMember: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  showCommunityOwners: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  addCommunityOwner: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  deleteCommunityOwner: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  listMembers: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  createMember: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  showMember: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  updateMember: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  deleteMember: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  listTasks: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  createTask: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  showTask: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  updateTask: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  deleteTask: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  listRecurring: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  createRecurring: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  showRecurring: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  updateRecurring: function (req, res, next) {
-    next(new Error('Not implemented'));
-  },
-  deleteRecurring: function (req, res, next) {
-    next(new Error('Not implemented'));
+
+  listCommunities: function(req, res, next) {
+    res.send(
+      util.inspect(dbCommunitask.view('communities/listCommunities'),
+      function(err) {
+        if (err) {
+          util.inspect(err);
+        } else {
+          next();
+        }
+      })
+    );
   }
 };
 

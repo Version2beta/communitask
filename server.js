@@ -1,28 +1,22 @@
-var restify = require('restify');
-var _ = require('underscore')._;
-
-var models = require('./models');
-var views = require('./views');
+var util = require('util');
 var log = require('./lib/log');
+var _ = require('underscore')._;
+var restify = require('restify');
 
+var views = require('./views');
 var config = require('./config');
+
 var server = restify.createServer();
 server
   .use(restify.fullResponse())
   .use(restify.bodyParser());
 server.pre(restify.pre.userAgentConnection());
 
-/* Models */
-
-var communities = new models.Communities();
-var members = new models.Members();
-var tasks = new models.Tasks();
-var recurringTasks = new models.RecurringTasks();
-
 /* Routes */
 
 // Communities
 server.get('/communities', views.listCommunities);
+/*
 server.post('/communities', views.createCommunity);
 server.get('/communities/:cid', views.showCommunity);
 server.put('/communities/:cid', views.updateCommunity);
@@ -54,6 +48,7 @@ server.post('/recurring', views.createRecurring);
 server.get('/recurring/:rid', views.showRecurring);
 server.put('/recurring/:rid', views.updateRecurring);
 server.del('/recurring/:rid', views.deleteRecurring);
+*/
 
 // Static content
 server.get(/.*/, restify.serveStatic({
@@ -62,6 +57,13 @@ server.get(/.*/, restify.serveStatic({
 }));
 
 // Listen
-server.listen(config.port, function() {
-  log.info('%s listening at %s', server.name, server.url);
+views.connect(function (err) {
+  if (err) {
+    log.info('Views connect failed');
+    process.exit(1);
+  } else {
+    server.listen(config.port, function() {
+      log.info('%s listening at %s', server.name, server.url);
+    });
+  }
 });

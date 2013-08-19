@@ -45,8 +45,8 @@ Properties:
 
 JSON API:
 
-* ```/communities/?name={name}&owners[]={owners}&status[]={status}&deleted=true```
-	* GET: Return list of communities to which the authenticated user has access. Optionally filter by name, owners, and/or status.
+* ```/communities```
+	* GET: Return list of communities to which the authenticated user has access.
 	* POST: Create a new community with the authenticated user as owner.
 * ```/communities/{id}/```
 	* GET: Return details about the specified community.
